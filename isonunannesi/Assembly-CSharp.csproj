@@ -57,12 +57,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\CameraManager.cs" />
-    <Compile Include="Assets\Scripts\JumPad.cs" />
+    <Compile Include="Assets\Scripts\JumpPad.cs" />
+    <Compile Include="Assets\Scripts\EnemyPatrol.cs" />
+    <Compile Include="Assets\Scripts\MagicEnemyAI.cs" />
     <Compile Include="Assets\Scripts\PlayerSlide.cs" />
     <Compile Include="Assets\Scripts\HealthBar.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
+    <Compile Include="Assets\Scripts\MagicHolder.cs" />
+    <Compile Include="Assets\Scripts\JumPad.cs" />
     <Compile Include="Assets\Scripts\Hook.cs" />
+    <Compile Include="Assets\Scripts\SwordEnemyAI.cs" />
     <Compile Include="Assets\Scripts\Ladder.cs" />
+    <Compile Include="Assets\Scripts\FinalBossAI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Nature_pixel_art_assets\pixel_snapping_README.txt" />
