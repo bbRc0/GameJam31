@@ -8,17 +8,25 @@ public class Hook : MonoBehaviour
     public LineRenderer lr;
     public DistanceJoint2D dj;
 
+    private float distance;
+    public Transform playerTransform;
+    public Transform hookTransform;
+
     void Start()
     {
         dj.enabled = false;
     }
     void Update()
     {
-        if (Input.GetKey(KeyCode.E))
+        distance = Vector2.Distance(playerTransform.position,hookTransform.position);
+        
+        
+        
+        if (Input.GetKey(KeyCode.E) && distance<8)
         {
             HookOn();
         }
-        else if (Input.GetKeyUp(KeyCode.E))
+        else //if (Input.GetKeyUp(KeyCode.E))
         {
             HookOff();
         }

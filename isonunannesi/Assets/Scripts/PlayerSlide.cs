@@ -7,14 +7,14 @@ public class PlayerSlide : MonoBehaviour
     public bool isSliding = false;
    
     public Player pl;
-    public Rigidbody2D rigidbody;
+    public Rigidbody2D rb;
 
     public Animator anim;
 
     public BoxCollider2D regularColl;
     public BoxCollider2D sliderColl;
 
-    public float slideSpeed = 5f;
+    public float slideSpeed = 10f;
 
     void Update()
     {
@@ -35,11 +35,11 @@ public class PlayerSlide : MonoBehaviour
 
         if (!pl.sprite.flipX)
         {
-            rigidbody.AddForce(Vector2.right * slideSpeed);
+            rb.AddForce(Vector2.right * slideSpeed);
         }
         else
         {
-            rigidbody.AddForce(Vector2.left * slideSpeed);
+            rb.AddForce(Vector2.left * slideSpeed);
         }
         StartCoroutine("stopSlide");
     }

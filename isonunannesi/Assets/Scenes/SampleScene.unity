@@ -153,7 +153,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.7640413}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -164,7 +164,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 0.47790504}
   m_EdgeRadius: 0
 --- !u!4 &298128448
 Transform:
@@ -666,7 +666,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1219922400}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcf503199b5fb4a488c3e6a0eadc99b7, type: 3}
+  m_Script: {fileID: 11500000, guid: eb31470e37b6eaa4b95c8877f80be55b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1219922404}
@@ -950,29 +950,29 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1219922400}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95a72a9cdc5877744a366e32f44eafe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isSliding: 0
   pl: {fileID: 1219922402}
-  rigidbody: {fileID: 1219922404}
+  rb: {fileID: 1219922404}
   anim: {fileID: 1219922413}
   regularColl: {fileID: 1219922407}
   sliderColl: {fileID: 298128447}
   slideSpeed: 5
 --- !u!95 &1219922413
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1219922400}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 14e65b0236f590f43b13b80354e5290f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -981,7 +981,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &1264319011
 GameObject:
   m_ObjectHideFlags: 0

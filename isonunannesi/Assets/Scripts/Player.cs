@@ -8,6 +8,12 @@ public class Player : MonoBehaviour
     private float jumpingPower = 6f;
     private bool isFacingRight = true;
 
+    public int maxHealth = 5;
+    public int currentHealth;
+    public HealthBar healthbar;
+
+
+
     private bool isWallSliding;
     private float wallSlidingSpeed = 2f;
 
@@ -35,6 +41,15 @@ public class Player : MonoBehaviour
 
     public SpriteRenderer sprite;
 
+    private Animator animator;
+
+    private void Start()
+    {
+        currentHealth = maxHealth;
+        healthbar.SetMaxHealth(maxHealth);
+
+        animator = GetComponent<Animator>();
+    }
     private void Update()
     {
         if (isDashing)
@@ -43,6 +58,7 @@ public class Player : MonoBehaviour
         }
 
         horizontal = Input.GetAxisRaw("Horizontal");
+        
         if (IsGrounded() && !Input.GetKey(KeyCode.W))
         {
             doubleJump = false;
@@ -69,6 +85,38 @@ public class Player : MonoBehaviour
         WallSlide();
         WallJump();
 
+        if (horizontal > 0 || horizontal < 0)
+        {
+            animator.SetFloat("SPEED", 1);
+        }
+        else
+        {
+            animator.SetFloat("SPEED", 0);
+        }
+
+        if (IsWalled())
+        {
+            animator.SetBool("IsWallSliding", true);
+        }
+        else
+        {
+            animator.SetBool("IsWallSliding", false);
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        {
+            StartCoroutine(Dash());
+        }
+
+
+
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            TakeDamage(1);
+        }
+
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
         {
             StartCoroutine(Dash());
@@ -79,6 +127,12 @@ public class Player : MonoBehaviour
             Flip();
         }
     }
+    void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        healthbar.SetHealth(currentHealth);
+    }
+
 
     private void FixedUpdate()
     {
@@ -165,6 +219,7 @@ public class Player : MonoBehaviour
     {
         isWallJumping = false;
     }
+
 
 
     private IEnumerator Dash()
