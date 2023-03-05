@@ -18,13 +18,24 @@ public class SwordEnemyAI : MonoBehaviour
     private Player playerscript;
 
     private Animator anim;
-    private int playerHealth;
     private EnemyPatrol enemyPatrol;
+
+    public int maxHealth = 15;
+    public int currentHealth;
+    public HealthBar healthbar;
+    
+    
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
         enemyPatrol = GetComponentInParent<EnemyPatrol>();
+        
+    }
+    private void Start()
+    {
+        currentHealth = maxHealth;
+        healthbar.SetMaxHealth(maxHealth);
     }
     private void Update()
     {
@@ -48,8 +59,10 @@ public class SwordEnemyAI : MonoBehaviour
             new Vector3(boxCollider.bounds.size.x * range, boxCollider.bounds.size.y, boxCollider.bounds.size.z),
             0, Vector2.left, 0, playerLayer);
 
-        //if (hit.collider != null)
-        //{ playerHealth = hit.transform.GetComponent<Player>().currentHealth; }
+        if (hit.collider != null)
+        { 
+            playerscript = hit.collider.gameObject.GetComponent<Player>(); 
+        }
 
         return hit.collider != null;
     }
@@ -66,5 +79,29 @@ public class SwordEnemyAI : MonoBehaviour
             playerscript.TakeDamage(damage);
         }
 
+    }
+    public void TakeDamageEnemy (int damage)
+    {
+        currentHealth -= damage;
+        healthbar.SetHealth(currentHealth);
+
+        if (currentHealth > 0)
+        {
+            anim.SetTrigger("Hurt");
+        }
+        else
+        {
+            anim.SetTrigger("Die");
+            StartCoroutine(WaitForTwoSeconds());
+            
+        }
+    }
+
+    IEnumerator WaitForTwoSeconds()
+    {
+        yield return new WaitForSeconds(1f);
+        gameObject.SetActive(false);
+        healthbar.gameObject.SetActive(false);
+        
     }
 }

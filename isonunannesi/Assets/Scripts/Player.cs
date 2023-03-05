@@ -4,16 +4,26 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private float horizontal;
-    private float speed = 5f;
+    private float speed = 3.5f;
     private float jumpingPower = 6f;
     private bool isFacingRight = true;
 
     public int maxHealth = 5;
     public int currentHealth;
     public HealthBar healthbar;
+    public HealthBar EnemyHealthBar;
+    
 
+    //_______________________________________
 
+    public Transform attackPoint;
+    public float attackRange = 0.5f;
+    public LayerMask EnemyLayers;
 
+    public float attackRate = 2f;
+    float nextAttacTime = 0f;
+
+    //________________________________________
     private bool isWallSliding;
     private float wallSlidingSpeed = 2f;
 
@@ -32,9 +42,11 @@ public class Player : MonoBehaviour
     private float dashingTime = 0.2f;
     private float dashingCooldown = 1f;
 
+
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform wallCheck;
+    [SerializeField] private GameObject middlecheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
     [SerializeField] private TrailRenderer tr;
@@ -42,6 +54,10 @@ public class Player : MonoBehaviour
     public SpriteRenderer sprite;
 
     private Animator animator;
+
+    public GameObject ladders;
+
+    public CameraManager camMngr;
 
     private void Start()
     {
@@ -56,6 +72,17 @@ public class Player : MonoBehaviour
         {
             return;
         }
+
+        if (Time.time>=nextAttacTime)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Attack();
+                nextAttacTime = Time.time + 1f / attackRate;
+            }
+        }
+        
+        
 
         horizontal = Input.GetAxisRaw("Horizontal");
         
@@ -84,7 +111,8 @@ public class Player : MonoBehaviour
 
         WallSlide();
         WallJump();
-
+        
+        
         if (horizontal > 0 || horizontal < 0)
         {
             animator.SetFloat("SPEED", 1);
@@ -94,15 +122,7 @@ public class Player : MonoBehaviour
             animator.SetFloat("SPEED", 0);
         }
 
-        if (IsWalled())
-        {
-            animator.SetBool("IsWallSliding", true);
-        }
-        else
-        {
-            animator.SetBool("IsWallSliding", false);
-        }
-
+        
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
         {
@@ -110,12 +130,7 @@ public class Player : MonoBehaviour
         }
 
 
-
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            TakeDamage(1);
-        }
+        
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
         {
@@ -126,11 +141,25 @@ public class Player : MonoBehaviour
         {
             Flip();
         }
+
+        
     }
+
+    
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
         healthbar.SetHealth(currentHealth);
+
+        if (currentHealth > 0)
+        {
+            animator.SetTrigger("Hurt");
+        }
+        else
+        {
+            animator.SetTrigger("Die");
+            //dead scene
+        }
     }
 
 
@@ -169,6 +198,63 @@ public class Player : MonoBehaviour
             transform.localScale = localScale;
         }
     }
+
+    private void Attack()
+    {
+        animator.SetTrigger("Attack");
+
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, EnemyLayers);
+
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            if (enemy.tag== "BossEnemy")
+            {
+                enemy.GetComponent<FinalBossAI>().TakeDamageBoss(2);
+            }
+            else if (enemy.gameObject.tag == "LittleEnemy")
+            {                
+                enemy.GetComponent<SwordEnemyAI>().TakeDamageEnemy(2);
+            }
+        }
+    }
+
+    
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (ladders!=null&& camMngr!=null)
+        {
+            if (collision.gameObject.tag == "OpenEnemyHealthBar")
+            {
+                EnemyHealthBar.gameObject.SetActive(true);
+            }
+            else if (collision.gameObject.tag == "OpenTheLadders")
+            {
+                ladders.SetActive(true);
+            }
+            else if (collision.gameObject.tag == "ChangeCameraPoses")
+            {
+                camMngr.minY = 15f;
+                camMngr.maxY = 20f;
+            }
+        }
+        
+        
+        
+    }
+
+
+
+
+
+    private void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null)
+        {
+            return;
+        }
+        Gizmos.DrawWireSphere(attackPoint.position,attackRange);
+    }
+
 
     private void WallSlide()
     {

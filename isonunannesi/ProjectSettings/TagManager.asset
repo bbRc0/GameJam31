@@ -6,7 +6,11 @@ TagManager:
   tags:
   - Ground
   - Ladder
-  - SecondFloorController
+  - BossEnemy
+  - LittleEnemy
+  - OpenEnemyHealthBar
+  - OpenTheLadders
+  - ChangeCameraPoses
   layers:
   - Default
   - TransparentFX
@@ -17,8 +21,8 @@ TagManager:
   - Ground
   - Wall
   - Player
-  - 
-  - 
+  - BossEnemy
+  - LittleEnemy
   - 
   - 
   - 

@@ -10,14 +10,11 @@ public class CameraManager : MonoBehaviour
     [SerializeField]private float smoothY;
 
     [SerializeField] private float minX;
-    [SerializeField] private float minY;
+    [SerializeField] public float minY;
     [SerializeField] private float maxX;
-    [SerializeField] private float maxY;
+    [SerializeField] public float maxY;
 
-    private void Start()
-    {
-        player = GameObject.Find("Player").transform;
-    }
+    
     private void LateUpdate()
     {
         float posX=Mathf.MoveTowards(transform.position.x , player.position.x, smoothX);
